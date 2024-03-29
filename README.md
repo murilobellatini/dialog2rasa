@@ -34,7 +34,7 @@ Feedback and contributions are welcome as we work towards making this tool more 
 
 ### Testing
 
-This project includes a tests folder in the repository, where you can find `pytest` tests to ensure the reliability and functionality of the package.
+This project includes automated unit tests when distributed as a PyPi package (triggered by Github actions workflow). Please be sure to test your code and extend the tests with `pytest` before submitting a pull request. This will ensure reliability and functionality of the package.
 
 ## License
 
