@@ -1,10 +1,18 @@
+from pathlib import Path
+from typing import Optional
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.general import camel_to_snake, logger
 from dialog2rasa.utils.io import read_json_file, write_dict_files
 
 
 class EntityConverter(BaseConverter):
-    def __init__(self, agent_dir, agent_name, languages, output_file=None):
+    def __init__(
+        self,
+        agent_dir: Path,
+        agent_name: str,
+        languages: tuple,
+        output_file: Optional[str] = None,
+    ) -> None:
         super().__init__(agent_dir, agent_name, languages, output_file, "nlu")
         self.lookup_path = self.nlu_folder_path / "lookup"
         self.entities_path = self.agent_dir / "entities"
@@ -36,7 +44,7 @@ class EntityConverter(BaseConverter):
                         )
                         if compound_file_path not in compound_content:
                             compound_content[compound_file_path] = (
-                                self._init_compound_file_content(entity_name)
+                                self._init_compound_file_content()
                             )
                             logger.warning(
                                 "Manual adaptation needed for compound "
@@ -66,12 +74,12 @@ class EntityConverter(BaseConverter):
                         self._update_content(
                             lookup_content,
                             lookup_file_path,
-                            self._handle_lookup(entry, entity_name),
+                            self._handle_lookup(entry),
                         )
 
         return synonym_content, lookup_content, compound_content
 
-    def _update_content(self, content_dict, file_path, new_content):
+    def _update_content(self, content_dict: dict, file_path: Path, new_content: str):
         if file_path not in content_dict:
             content_dict[file_path] = ""
         content_dict[file_path] += new_content
@@ -82,11 +90,11 @@ class EntityConverter(BaseConverter):
         examples = "\n".join(f"    - {syn}" for syn in entry["synonyms"])
         return f"- synonym: {synonym}\n  examples: |\n{examples}\n\n"
 
-    def _handle_lookup(self, entry: dict, entity_name: str) -> str:
+    def _handle_lookup(self, entry: dict) -> str:
         """Returns Rasa format string for Dialogflow lookup tables."""
         return "\n".join(entry["synonyms"]) + "\n"
 
-    def _init_compound_file_content(self, entity_name: str) -> str:
+    def _init_compound_file_content(self) -> str:
         """Returns the initial content for a new compound entity file."""
         header_content = "# Compound entity: Manual adaptation needed for Rasa\n"
         header_content += 'version: "3.1"\n\nnlu:\n'

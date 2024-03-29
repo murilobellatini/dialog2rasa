@@ -1,10 +1,18 @@
+from pathlib import Path
+from typing import Optional
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.general import camel_to_snake, logger
 from dialog2rasa.utils.io import read_json_file, write_to_file
 
 
 class IntentConverter(BaseConverter):
-    def __init__(self, agent_dir, agent_name, languages, output_file=None):
+    def __init__(
+        self,
+        agent_dir: Path,
+        agent_name: str,
+        languages: tuple,
+        output_file: Optional[str] = None,
+    ) -> None:
         super().__init__(agent_dir, agent_name, languages, output_file, "nlu")
         self.intents_path = agent_dir / "intents"
 

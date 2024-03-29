@@ -19,7 +19,7 @@ class DialogflowToRasaConverter:
         self.output_dir = self.agent_dir / "output"
         self.lookup_path = self.output_dir / "data" / "nlu" / "lookup"
 
-    def _initialize_converters(self):
+    def _initialize_converters(self) -> None:
         """Initializes all required converters."""
         converter_types = ["intent", "utterance", "entity"]
         self.converters: dict[str, BaseConverter] = {}

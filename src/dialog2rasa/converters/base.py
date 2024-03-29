@@ -1,4 +1,6 @@
 from abc import abstractmethod
+from pathlib import Path
+from typing import Optional
 
 
 class BaseConverter:
@@ -8,7 +10,14 @@ class BaseConverter:
     2) Export the output files following the RASA YAML-format.
     """
 
-    def __init__(self, agent_dir, agent_name, languages, output_file=None, sub_dir=""):
+    def __init__(
+        self,
+        agent_dir: Path,
+        agent_name: str,
+        languages: tuple,
+        output_file: Optional[str] = None,
+        sub_dir: str = "",
+    ) -> None:
         self.agent_dir = agent_dir
         self.agent_name = agent_name
         self.languages = languages

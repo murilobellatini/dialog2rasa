@@ -4,7 +4,7 @@ import argparse
 from dialog2rasa.converters.core import DialogflowToRasaConverter
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert Dialogflow agent to Rasa YAML format. Output will be "
         "exported to subfolder /output within input path (-p) of Dialogflow agent."

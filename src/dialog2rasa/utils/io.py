@@ -16,13 +16,13 @@ def reset_directory(dir_path: Path, deepest_subdir: str) -> None:
     (dir_path / deepest_subdir).mkdir(parents=True, exist_ok=True)
 
 
-def read_json_file(file_path: str) -> dict:
+def read_json_file(file_path: Path) -> dict:
     """Reads and returns JSON data from a file."""
     with Path(file_path).open("r", encoding="utf-8") as file:
         return json.load(file)
 
 
-def write_to_file(file_path: str, content: str, mode: str = "w") -> None:
+def write_to_file(file_path: Path, content: str, mode: str = "w") -> None:
     """Writes given content to a file."""
     with Path(file_path).open(mode, encoding="utf-8") as file:
         file.write(content)

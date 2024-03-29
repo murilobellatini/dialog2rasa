@@ -1,10 +1,18 @@
+from pathlib import Path
+from typing import Optional
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.io import read_json_file, write_to_file
 from dialog2rasa.utils.general import camel_to_snake, logger
 
 
 class UtteranceConverter(BaseConverter):
-    def __init__(self, agent_dir, agent_name, languages, output_file="domain.yml"):
+    def __init__(
+        self,
+        agent_dir: Path,
+        agent_name: str,
+        languages: tuple,
+        output_file: Optional[str] = "domain.yml",
+    ) -> None:
         super().__init__(agent_dir, agent_name, languages, output_file)
 
     def convert(self) -> None:
@@ -14,7 +22,7 @@ class UtteranceConverter(BaseConverter):
         write_to_file(self.output_path, converted_responses)
         logger.info(f"The file '{self.output_path}' has been created.")
 
-    def _handle_responses(self, responses_folder_path) -> str:
+    def _handle_responses(self, responses_folder_path: Path) -> str:
         """Handles conversion of Dialogflow responses to Rasa format."""
         converted_responses = "responses:\n"
         for file in sorted(responses_folder_path.iterdir()):
@@ -29,7 +37,7 @@ class UtteranceConverter(BaseConverter):
                     )
         return converted_responses
 
-    def _handle_utter_message(self, intent_name, response) -> str:
+    def _handle_utter_message(self, intent_name: str, response: dict) -> str:
         """Handles conversion of individual Dialogflow utter messages."""
         converted_utter = ""
         for message in response.get("messages", []):
