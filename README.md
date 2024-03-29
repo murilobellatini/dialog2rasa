@@ -31,9 +31,11 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
 
 - **Features**: Converts intents, entities, and utterances to Rasa YAML.
 - **Limitations**:
-  - Does not support compound entities directly; creates pseudo-yaml `__compound_` with prefix for workaround.
-  - Groups entities with a single synonym in a lookup table; handles multiple synonyms appropriately.
+  - Does not support compound entities directly; creates pseudo-yaml `__compound_` with prefix as workaround.
+  - Groups entities with a single synonym in a lookup table; handles entities multiple synonyms also as synonyms in Rasa.
   - Names output NLU data after the agent for easy project integration.
+
+> Note: See `test/mockup-agent` and its reference output [here](./tests/mockup-agent) to understand these limitations.
 
 ## Contributing
 
