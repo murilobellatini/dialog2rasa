@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fake-id",
+    "data": [
+      {
+        "text": "start chitchat",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "lang": "de",
+    "updated": 0
+  },
+  {
+    "id": "fake-id",
+    "data": [
+      {
+        "text": "chitchat on",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "lang": "de",
+    "updated": 0
+  }
+]

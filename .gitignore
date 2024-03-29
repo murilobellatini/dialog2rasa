@@ -10,3 +10,6 @@ __pycache__/
 
 # exceptions
 !.gitkeep
+
+# test data
+/tests/mockup-agent/output

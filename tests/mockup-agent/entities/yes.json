@@ -1,0 +1,9 @@
+{
+  "id": "fake-id",
+  "name": "yes",
+  "isOverridable": true,
+  "isEnum": false,
+  "isRegexp": false,
+  "automatedExpansion": false,
+  "allowFuzzyExtraction": false
+}

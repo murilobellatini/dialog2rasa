@@ -1,0 +1,19 @@
+version: "3.1"
+
+nlu:
+  - intent: chitchat.start
+    examples: |
+      - start chitchat
+      - chitchat on
+
+  - intent: default.cancel
+    examples: |
+      - cancel
+      - stop
+
+- synonym: yes
+  examples: |
+    - yes
+    - yeah
+    - sure
+

@@ -1,0 +1,8 @@
+# Compound entity: Manual adaptation needed for Rasa
+version: "3.1"
+
+nlu:
+  - synonym: @first_name:first_name @last_name:last_name
+    examples: |
+      - @first_name:first_name @last_name:last_name
+

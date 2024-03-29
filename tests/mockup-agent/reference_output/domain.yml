@@ -1,0 +1,5 @@
+responses:
+  utter_chitchat.start:
+    - text: "Hi! What do you want to chat about?"
+    - text: "Hey, anything in mind?"
+

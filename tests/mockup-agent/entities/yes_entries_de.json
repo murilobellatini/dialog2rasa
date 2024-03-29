@@ -1,0 +1,23 @@
+[
+  {
+    "value": "yes",
+    "synonyms": [
+      "yes",
+      "yeah",
+      "sure"
+    ]
+  },
+  {
+    "value": "uhum",
+    "synonyms": [
+      "uhum"
+    ]
+  },
+  {
+    "value": "ok",
+    "synonyms": [
+      "ok"
+    ]
+  }
+
+]
