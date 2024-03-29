@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from src.dialog2rasa.converters.base import BaseConverter
-from src.dialog2rasa.converters.manager import get_converter
-from src.dialog2rasa.utils.io import reset_directory
-from src.dialog2rasa.utils.general import logger
+from dialog2rasa.converters.base import BaseConverter
+from dialog2rasa.converters.manager import get_converter
+from dialog2rasa.utils.io import reset_directory
+from dialog2rasa.utils.general import logger
 
 
 class DialogflowToRasaConverter:

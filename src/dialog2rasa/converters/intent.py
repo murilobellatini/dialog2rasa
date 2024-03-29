@@ -1,6 +1,6 @@
-from src.dialog2rasa.converters.base import BaseConverter
-from src.dialog2rasa.utils.general import camel_to_snake, logger
-from src.dialog2rasa.utils.io import read_json_file, write_to_file
+from dialog2rasa.converters.base import BaseConverter
+from dialog2rasa.utils.general import camel_to_snake, logger
+from dialog2rasa.utils.io import read_json_file, write_to_file
 
 
 class IntentConverter(BaseConverter):
