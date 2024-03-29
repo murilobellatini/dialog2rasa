@@ -1,5 +1,6 @@
 import logging
 from logging import INFO, Logger, StreamHandler
+import re
 
 
 def setup_logger() -> Logger:
@@ -25,3 +26,13 @@ def setup_logger() -> Logger:
 
 
 logger = setup_logger()
+
+
+def camel_to_snake(s: str) -> str:
+    """Converts input string from CamelCase to snake_case."""
+    return (
+        re.sub(r"(?<!^)(?=[A-Z])", "_", s)  # insert underscores before capital letters
+        .replace(" ", "_")  # fix non non-standard CamelCase inputs
+        .replace("__", "_")  # fix double underscores (from previous replace)
+        .lower()  # lowercase for true snake_case
+    )

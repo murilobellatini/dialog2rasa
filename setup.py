@@ -7,7 +7,7 @@ setup(
     install_requires=[],
     entry_points={
         "console_scripts": [
-            "dialog2rasa=dialog2rasa.converter:main",
+            "dialog2rasa=dialog2rasa.cli:main",
         ],
     },
 )

@@ -1,8 +1,7 @@
 import json
 import shutil
 from pathlib import Path
-
-from utils.loggers import logger
+from dialog2rasa.utils.general import logger
 
 
 def reset_directory(dir_path: Path, deepest_subdir: str) -> None:
