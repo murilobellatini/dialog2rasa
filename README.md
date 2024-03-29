@@ -1,6 +1,6 @@
 # Dialog2Rasa Converter
 
-Transform your Dialogflow agents into Rasa format, suitable for Rasa version 3 and above. This CLI tool streamlines the migration process from Dialogflow to Rasa, ensuring a smoother transition for developers aiming to leverage Rasa's capabilities. It converts the Dialogflow export into Rasa YAML format.
+Transform your Dialogflow agents into Rasa format, suitable for Rasa version 3 and above. This CLI tool streamlines the migration process from Dialogflow to Rasa, ensuring a smoother transition for chatbot migrations. It converts the Dialogflow export into Rasa YAML format.
 
 ## Installation
 
