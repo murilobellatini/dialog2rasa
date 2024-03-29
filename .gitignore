@@ -13,3 +13,4 @@ __pycache__/
 
 # test data
 /tests/mockup-agent/output
+/.pytest_cache

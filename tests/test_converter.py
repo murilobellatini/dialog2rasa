@@ -1,7 +1,7 @@
 import filecmp
 import pytest
 from pathlib import Path
-from dialog2rasa.cli import main
+from src.dialog2rasa.cli import main
 
 
 @pytest.fixture

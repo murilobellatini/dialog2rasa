@@ -1,6 +1,7 @@
 import argparse
 
-from dialog2rasa.converters.core import DialogflowToRasaConverter
+
+from src.dialog2rasa.converters.core import DialogflowToRasaConverter
 
 
 def main():
