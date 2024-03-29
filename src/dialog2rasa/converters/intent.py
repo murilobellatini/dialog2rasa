@@ -21,7 +21,7 @@ class IntentConverter(BaseConverter):
         """Converts Dialogflow intents to Rasa NLU format."""
         converted_intents = self._handle_intents()
         write_to_file(self.output_path, converted_intents)
-        logger.info(f"The file '{self.output_path}' has been created.")
+        logger.debug(f"The file '{self.output_path}' has been created.")
 
     def _handle_intents(self) -> str:
         """Handles conversion of individual Dialogflow intents."""

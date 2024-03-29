@@ -23,7 +23,7 @@ class EntityConverter(BaseConverter):
         entity_contents = self._handle_entities()
         for entity_dict in entity_contents:
             write_dict_files(entity_dict)
-        logger.info(
+        logger.debug(
             f"The entity files have been created in dir '{self.nlu_folder_path}'."
         )
 

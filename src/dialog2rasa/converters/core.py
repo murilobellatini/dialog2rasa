@@ -51,7 +51,7 @@ class DialogflowToRasaConverter(BaseConverter):
 
     def convert_all(self) -> None:
         """Converts all Dialogflow files to Rasa format."""
-        logger.info("Starting conversion...")
+        logger.debug("Starting conversion...")
         reset_directory(self.output_dir, "data/nlu/lookup")
 
         self._initialize_converters()

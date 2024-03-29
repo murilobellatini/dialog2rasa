@@ -21,7 +21,7 @@ class UtteranceConverter(BaseConverter):
         responses_folder_path = self.agent_dir / "intents"
         converted_responses = self._handle_responses(responses_folder_path)
         write_to_file(self.output_path, converted_responses)
-        logger.info(f"The file '{self.output_path}' has been created.")
+        logger.debug(f"The file '{self.output_path}' has been created.")
 
     def _handle_responses(self, responses_folder_path: Path) -> str:
         """Handles conversion of Dialogflow responses to Rasa format."""

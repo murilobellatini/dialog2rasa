@@ -11,9 +11,9 @@ def reset_directory(dir_path: Path, deepest_subdir: str) -> None:
     then creates the specified deepest subdirectory.
     """
     if dir_path.exists():
-        logger.info(f"Clearing all contents from '{dir_path}'...")
+        logger.warning(f"Clearing all contents from '{dir_path}'...")
         shutil.rmtree(dir_path)
-        logger.info("Output directory cleared.")
+        logger.debug("Output directory cleared.")
     (dir_path / deepest_subdir).mkdir(parents=True, exist_ok=True)
 
 
