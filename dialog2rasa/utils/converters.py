@@ -1,8 +1,8 @@
 import re
 from abc import abstractmethod
 
-from common.io import read_json_file, write_dict_files, write_to_file
-from common.loggers import logger
+from utils.io import read_json_file, write_dict_files, write_to_file
+from utils.loggers import logger
 
 
 def camel_to_snake(s: str) -> str:

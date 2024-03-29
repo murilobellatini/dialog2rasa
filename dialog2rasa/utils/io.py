@@ -2,7 +2,7 @@ import json
 import shutil
 from pathlib import Path
 
-from common.loggers import logger
+from utils.loggers import logger
 
 
 def reset_directory(dir_path: Path, deepest_subdir: str) -> None:

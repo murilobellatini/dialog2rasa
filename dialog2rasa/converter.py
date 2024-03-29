@@ -1,9 +1,9 @@
 import argparse
 from pathlib import Path
 
-from common.converters import get_converter
-from common.io import reset_directory
-from common.loggers import logger
+from utils.converters import get_converter
+from utils.io import reset_directory
+from utils.loggers import logger
 
 
 class DialogflowToRasaConverter:
