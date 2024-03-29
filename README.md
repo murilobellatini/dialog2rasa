@@ -14,7 +14,7 @@ For more information and details about the package, you can visit the PyPI page 
 
 ## Usage
 
-After installation, convert your Dialogflow export to Rasa format using the command:
+After installation, convert your Dialogflow extracted export (i.e. unzip it first) to Rasa format using the command:
 
 ```sh
 dialog2rasa -p path/to/extracted/dialogflow/export
