@@ -1,10 +1,16 @@
 # Dialog2Rasa Converter
 
-Transform your Dialogflow agents into Rasa format, suitable for Rasa version 3 and above. This CLI tool streamlines the migration process from Dialogflow to Rasa, ensuring a smoother transition for developers aiming to leverage Rasa's capabilities.
+Transform your Dialogflow agents into Rasa format, suitable for Rasa version 3 and above. This CLI tool streamlines the migration process from Dialogflow to Rasa, ensuring a smoother transition for developers aiming to leverage Rasa's capabilities. It converts the Dialogflow export into Rasa YAML format.
 
 ## Installation
 
-The package is in the process of being made available as a Python package. Installation instructions will be provided upon release.
+To install `dialog2rasa`, simply run:
+
+```bash
+pip install dialog2rasa
+```
+
+For more information and details about the package, you can visit the PyPI page at: <https://pypi.org/project/dialog2rasa/>.
 
 ## Usage
 
@@ -25,6 +31,10 @@ dialog2rasa -p path/to/extracted/dialogflow/export
 ## Contributing
 
 Feedback and contributions are welcome as we work towards making this tool more robust and versatile. For bugs, feature requests, or contributions, please open an issue or pull request.
+
+### Testing
+
+This project includes a tests folder in the repository, where you can find `pytest` tests to ensure the reliability and functionality of the package.
 
 ## License
 
