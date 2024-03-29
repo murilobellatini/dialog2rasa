@@ -2,6 +2,7 @@
 name = "dialog2rasa"
 version = "0.1.0"
 description = "Dialogflow to Rasa > 3.0 agent converter."
+readme = "README.md"
 authors = ["Murilo Bellatini"]
 license = "Apache 2.0"
 
