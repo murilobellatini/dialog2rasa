@@ -28,4 +28,4 @@ Feedback and contributions are welcome as we work towards making this tool more 
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the Apache 2.0 License.
