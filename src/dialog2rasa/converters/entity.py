@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Optional
+
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.general import camel_to_snake, logger
 from dialog2rasa.utils.io import read_json_file, write_dict_files
@@ -10,10 +11,10 @@ class EntityConverter(BaseConverter):
         self,
         agent_dir: Path,
         agent_name: str,
-        languages: tuple,
+        language: str,
         output_file: Optional[str] = None,
     ) -> None:
-        super().__init__(agent_dir, agent_name, languages, output_file, "nlu")
+        super().__init__(agent_dir, agent_name, language, output_file, "nlu")
         self.lookup_path = self.nlu_folder_path / "lookup"
         self.entities_path = self.agent_dir / "entities"
 
@@ -29,53 +30,50 @@ class EntityConverter(BaseConverter):
     def _handle_entities(self) -> tuple:
         synonym_content, lookup_content, compound_content = {}, {}, {}
 
-        for lang in self.languages:
-            for entity_file in self.entities_path.glob(f"*_entries_{lang}.json"):
-                entity_name = camel_to_snake(entity_file.stem).replace(
-                    f"_entries_{lang}", ""
-                )
-                entries = read_json_file(entity_file)
+        for entity_file in self.entities_path.glob(f"*_entries_{self.language}.json"):
+            entity_name = camel_to_snake(entity_file.stem).replace(
+                f"_entries_{self.language}", ""
+            )
+            entries = read_json_file(entity_file)
 
-                for entry in entries:
-                    if any("@" in syn for syn in entry["synonyms"]):
-                        # @ refers to compound entities in dialogflow
-                        compound_file_path = (
-                            self.nlu_folder_path / f"__compound__{entity_name}.yml"
+            for entry in entries:
+                if any("@" in syn for syn in entry["synonyms"]):
+                    # @ refers to compound entities in dialogflow
+                    compound_file_path = (
+                        self.nlu_folder_path / f"__compound__{entity_name}.yml"
+                    )
+                    if compound_file_path not in compound_content:
+                        compound_content[compound_file_path] = (
+                            self._init_compound_file_content()
                         )
-                        if compound_file_path not in compound_content:
-                            compound_content[compound_file_path] = (
-                                self._init_compound_file_content()
-                            )
-                            logger.warning(
-                                "Manual adaptation needed for compound "
-                                f"entity '{entity_name}' in Rasa. "
-                                f"See file: '__compound__{entity_name}.yml'."
-                            )
-                        self._update_content(
-                            compound_content,
-                            compound_file_path,
-                            self._handle_compounds(entry),
+                        logger.warning(
+                            "Manual adaptation needed for compound "
+                            f"entity '{entity_name}' in Rasa. "
+                            f"See file: '__compound__{entity_name}.yml'."
                         )
+                    self._update_content(
+                        compound_content,
+                        compound_file_path,
+                        self._handle_compounds(entry),
+                    )
 
-                    elif len(entry["synonyms"]) > 1:
-                        # multiple synonyms are considered also synonyms in RASA
-                        synonyms_file_path = (
-                            self.nlu_folder_path / f"{self.agent_name}.yml"
-                        )
-                        self._update_content(
-                            synonym_content,
-                            synonyms_file_path,
-                            self._handle_synonyms(entry),
-                        )
+                elif len(entry["synonyms"]) > 1:
+                    # multiple synonyms are considered also synonyms in RASA
+                    synonyms_file_path = self.nlu_folder_path / f"{self.agent_name}.yml"
+                    self._update_content(
+                        synonym_content,
+                        synonyms_file_path,
+                        self._handle_synonyms(entry),
+                    )
 
-                    else:
-                        # single synonyms are accumulated in lookup tables
-                        lookup_file_path = self.lookup_path / f"{entity_name}.txt"
-                        self._update_content(
-                            lookup_content,
-                            lookup_file_path,
-                            self._handle_lookup(entry),
-                        )
+                else:
+                    # single synonyms are accumulated in lookup tables
+                    lookup_file_path = self.lookup_path / f"{entity_name}.txt"
+                    self._update_content(
+                        lookup_content,
+                        lookup_file_path,
+                        self._handle_lookup(entry),
+                    )
 
         return synonym_content, lookup_content, compound_content
 

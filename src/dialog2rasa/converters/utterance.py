@@ -1,8 +1,9 @@
 from pathlib import Path
 from typing import Optional
+
 from dialog2rasa.converters.base import BaseConverter
-from dialog2rasa.utils.io import read_json_file, write_to_file
 from dialog2rasa.utils.general import camel_to_snake, logger
+from dialog2rasa.utils.io import read_json_file, write_to_file
 
 
 class UtteranceConverter(BaseConverter):
@@ -10,10 +11,10 @@ class UtteranceConverter(BaseConverter):
         self,
         agent_dir: Path,
         agent_name: str,
-        languages: tuple,
+        language: str,
         output_file: Optional[str] = "domain.yml",
     ) -> None:
-        super().__init__(agent_dir, agent_name, languages, output_file)
+        super().__init__(agent_dir, agent_name, language, output_file)
 
     def convert(self) -> None:
         """Converts Dialogflow utterances to Rasa domain format."""
@@ -26,9 +27,7 @@ class UtteranceConverter(BaseConverter):
         """Handles conversion of Dialogflow responses to Rasa format."""
         converted_responses = "responses:\n"
         for file in sorted(responses_folder_path.iterdir()):
-            if not any(
-                file.name.endswith(f"usersays_{lang}.json") for lang in self.languages
-            ):
+            if not file.name.endswith(f"usersays_{self.language}.json"):
                 intent_name = camel_to_snake(file.stem)
                 data = read_json_file(file)
                 for response in data.get("responses", []):
@@ -41,7 +40,7 @@ class UtteranceConverter(BaseConverter):
         """Handles conversion of individual Dialogflow utter messages."""
         converted_utter = ""
         for message in response.get("messages", []):
-            if message.get("lang") in self.languages:
+            if message.get("lang") == self.language:
                 if "speech" in message:
                     converted_utter += f"  utter_{intent_name}:\n"
                     for s in message["speech"]:

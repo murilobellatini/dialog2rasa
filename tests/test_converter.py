@@ -1,6 +1,8 @@
 import filecmp
-import pytest
 from pathlib import Path
+
+import pytest
+
 from src.dialog2rasa.cli import main
 
 
@@ -8,8 +10,11 @@ from src.dialog2rasa.cli import main
 def mock_args(monkeypatch):
     """Set up command line arguments for the tool with a temporary output directory."""
     input_dir = Path("tests/mockup-agent")
-    monkeypatch.setattr("sys.argv", ["dialog2rasa", "--path", str(input_dir)])
-    return input_dir
+    language = "en"
+    monkeypatch.setattr(
+        "sys.argv", ["dialog2rasa", "--path", str(input_dir), "--l", language]
+    )
+    return input_dir, language
 
 
 def compare_file_contents_detailed(file1, file2):
@@ -72,12 +77,15 @@ def compare_directories(dir1, dir2):
 
 
 def test_conversion(mock_args):
-    input_dir = mock_args
+    input_dir, language = mock_args
 
     main()  # Executes the conversion process
 
-    output_dir = input_dir / "output"
-    reference_output_dir = input_dir / "reference_output"
+    output_dir = input_dir / "output" / language
+    reference_output_dir = input_dir / "reference_output" / language
+
+    print(f"{output_dir=}")
+    print(f"{reference_output_dir=}")
 
     discrepancies = compare_directories(output_dir, reference_output_dir)
     assert not discrepancies, "Detailed discrepancies found:\n" + "\n".join(

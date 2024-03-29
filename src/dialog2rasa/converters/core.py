@@ -1,23 +1,24 @@
 from pathlib import Path
+from typing import Optional
 
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.converters.manager import get_converter
-from dialog2rasa.utils.io import reset_directory
 from dialog2rasa.utils.general import logger
+from dialog2rasa.utils.io import reset_directory
 
 
-class DialogflowToRasaConverter:
+class DialogflowToRasaConverter(BaseConverter):
     """Converts Dialogflow agent files (.zip export) to Rasa format."""
 
-    def __init__(self, agent_dir: str, languages=("de",)) -> None:
+    def __init__(
+        self,
+        agent_dir: Path,
+        language: str,
+        output_file: Optional[str] = None,
+    ) -> None:
+        agent_name = agent_dir.name.replace("Agent-", "").replace("-", "_").lower()
+        super().__init__(agent_dir, agent_name, language, output_file, "nlu")
         """Initializes converter settings."""
-        self.agent_dir = Path(agent_dir)
-        self.languages = languages
-        self.agent_name = (
-            self.agent_dir.name.replace("Agent-", "").replace("-", "_").lower()
-        )
-        self.output_dir = self.agent_dir / "output"
-        self.lookup_path = self.output_dir / "data" / "nlu" / "lookup"
 
     def _initialize_converters(self) -> None:
         """Initializes all required converters."""
@@ -25,7 +26,7 @@ class DialogflowToRasaConverter:
         self.converters: dict[str, BaseConverter] = {}
         for converter_type in converter_types:
             self.converters[converter_type] = get_converter(
-                converter_type, self.agent_dir, self.agent_name, self.languages
+                converter_type, self.agent_dir, self.agent_name, self.language
             )
 
     def convert_all(self) -> None:

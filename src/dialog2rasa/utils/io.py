@@ -1,6 +1,7 @@
 import json
 import shutil
 from pathlib import Path
+
 from dialog2rasa.utils.general import logger
 
 

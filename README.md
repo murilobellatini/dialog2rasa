@@ -17,7 +17,21 @@ For more information and details about the package, you can visit the PyPI page 
 After installation, convert your Dialogflow extracted export (i.e. unzip it first) to Rasa format using the command:
 
 ```sh
-dialog2rasa -p path/to/extracted/dialogflow/export
+dialog2rasa -p path/to/extracted/dialogflow/export -l language_code
+```
+
+More specifically:
+
+```bash
+usage: dialog2rasa [-h] --path PATH [--language LANGUAGE]
+
+Transforms a Dialogflow agent into Rasa format. The result is saved in /output/[LANGUAGE_CODE], where [LANGUAGE_CODE] is replaced with the actual language code (e.g., 'en', 'de'), inside the Dialogflow agent's directory.
+
+options:
+  -h, --help            show this help message and exit
+  --path PATH, -p PATH  Path to the Dialogflow agent's extracted/unzipped folder.
+  --language LANGUAGE, -l LANGUAGE
+                        Language code (e.g., 'en' for English) of the Dialogflow agent. Defaults to 'de' (German).
 ```
 
 ## Features and Limitations

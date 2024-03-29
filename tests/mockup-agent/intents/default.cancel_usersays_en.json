@@ -3,26 +3,26 @@
     "id": "fake-id",
     "data": [
       {
-        "text": "start chitchat",
+        "text": "cancel",
         "userDefined": false
       }
     ],
     "isTemplate": false,
     "count": 0,
-    "lang": "de",
+    "lang": "en",
     "updated": 0
   },
   {
     "id": "fake-id",
     "data": [
       {
-        "text": "chitchat on",
+        "text": "stop",
         "userDefined": false
       }
     ],
     "isTemplate": false,
     "count": 0,
-    "lang": "de",
+    "lang": "en",
     "updated": 0
   }
 ]

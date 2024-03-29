@@ -1,6 +1,6 @@
 import logging
-from logging import INFO, Logger, StreamHandler
 import re
+from logging import INFO, Logger, StreamHandler
 
 
 def setup_logger() -> Logger:

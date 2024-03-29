@@ -14,18 +14,16 @@ class BaseConverter:
         self,
         agent_dir: Path,
         agent_name: str,
-        languages: tuple,
+        language: str,
         output_file: Optional[str] = None,
         sub_dir: str = "",
     ) -> None:
         self.agent_dir = agent_dir
         self.agent_name = agent_name
-        self.languages = languages
-        self.base_output_path = agent_dir / "output"
+        self.language = language
+        self.output_dir = agent_dir / "output" / self.language
         self.nlu_folder_path = (
-            self.base_output_path / "data" / "nlu"
-            if sub_dir == "nlu"
-            else self.base_output_path
+            self.output_dir / "data" / "nlu" if sub_dir == "nlu" else self.output_dir
         )
         self.output_file = output_file if output_file else f"{self.agent_name}.yml"
         self.output_path = self.nlu_folder_path / self.output_file
