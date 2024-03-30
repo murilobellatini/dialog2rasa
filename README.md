@@ -1,9 +1,9 @@
 # Dialog2Rasa Converter
 
-![Build Status](https://github.com/murilobellatini/dialog2rasa/actions/workflows/python-publish.yml/badge.svg)
-![PyPI version](https://badge.fury.io/py/dialog2rasa.svg)
-![Python Versions](https://img.shields.io/pypi/pyversions/dialog2rasa.svg)
-![License](https://img.shields.io/pypi/l/dialog2rasa.svg)
+[![Build Status](https://github.com/murilobellatini/dialog2rasa/actions/workflows/python-publish.yml/badge.svg)](https://github.com/murilobellatini/dialog2rasa/actions)
+[![PyPI version](https://badge.fury.io/py/dialog2rasa.svg)](https://pypi.org/project/dialog2rasa/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/dialog2rasa.svg)](https://pypi.org/project/dialog2rasa/)
+[![License](https://img.shields.io/pypi/l/dialog2rasa.svg)](https://github.com/murilobellatini/dialog2rasa/blob/main/LICENSE)
 
 ## About dialog2rasa
 
