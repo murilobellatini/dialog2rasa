@@ -31,9 +31,9 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
 
 - **Features**: Converts intents, entities, and utterances to Rasa YAML.
 - **Limitations**:
-  - Does not support compound entities directly; creates pseudo-yaml `__compound_` with prefix as workaround.
-  - Groups entities with a single synonym in a lookup table; handles entities multiple synonyms also as synonyms in Rasa.
-  - Names output NLU data after the agent for easy project integration.
+  - As Rasa doesn't natively support compound entities, this converter introduces a workaround by generating a pseudo-YAML file, prefixed with `__compound_`, which allows users to define their handling strategy.
+  - It consolidates entities that share a single synonym into a lookup table, while also treating entities with multiple synonyms as synonyms within Rasa.
+  - The output NLU YAML file is named after the agent, facilitating project integration by placing it within an `nlu` folder.
 
 > Note: See `test/mockup-agent` and its reference output [here](./tests/mockup-agent) to understand these limitations.
 
@@ -43,7 +43,7 @@ Your feedback and contributions are appreciated to enhance this tool. Report bug
 
 ### Testing
 
-The package includes automated tests. Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
+The package includes automated tests (see `.github/workflows/python-publish.yml` [here](.github/workflows/python-publish.yml)) in a Continuous Integration workflow with PyPi. Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
 
 ## License
 
