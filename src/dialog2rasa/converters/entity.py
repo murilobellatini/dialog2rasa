@@ -119,7 +119,7 @@ class EntityConverter(BaseConverter):
             domain_file.write(
                 "# TODO: Entities as slots. Review the types and mappings.\nslots:\n"
             )
-            for entity_name in sorted(
+            entity_names = sorted(
                 set(
                     [
                         x.stem.split("_entries")[0]
@@ -128,7 +128,8 @@ class EntityConverter(BaseConverter):
                         )
                     ]
                 )
-            ):
+            )
+            for entity_name in entity_names:
                 domain_file.write(
                     f"  {entity_name}:\n    type: text\n    "
                     "influence_conversation: false \n    mappings:\n    "
