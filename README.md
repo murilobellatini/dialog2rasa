@@ -9,6 +9,8 @@
 
 Easily convert Dialogflow agents to Rasa format for Rasa version 3+. This tool automates the migration to Rasa, converting Dialogflow exports into Rasa YAML format.
 
+For a detailed architecture flow of the Dialogflow to Rasa conversion process, see the [Conversion Process Diagram](https://github.com/murilobellatini/dialog2rasa/docs/conversion-process-diagram.md).
+
 ### Installation
 
 Install `dialog2rasa` with:
@@ -34,6 +36,10 @@ dialog2rasa -p path/to/extracted/dialogflow/export -l language_code
 
 The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflow agent’s directory, with `[LANGUAGE_CODE]` being the actual language code used.
 
+#### Output File Format
+
+For detailed insights into how our output data is structured, visit our documentation [here](https://github.com/murilobellatini/dialog2rasa/docs/file-generation-process.md).
+
 ### Features and Limitations
 
 - **Features**: Converts intents, entities, and utterances to Rasa YAML.
@@ -42,7 +48,7 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
   - It consolidates entities that share a single synonym into a lookup table, while also treating entities with multiple synonyms as synonyms within Rasa.
   - The output NLU YAML file is named after the agent, facilitating project integration by placing it within an `nlu` folder.
 
-> Note: See `test/mockup-agent` and its reference output [here](./tests/mockup-agent) to understand these limitations.
+> Note: See `test/mockup-agent` and its reference output [here](https://github.com/murilobellatini/dialog2rasa/tests/mockup-agent) to understand these limitations.
 
 ### Contributing
 
@@ -50,7 +56,7 @@ Your feedback and contributions are appreciated to enhance this tool. Report bug
 
 #### Testing
 
-The package includes automated tests (see `.github/workflows/python-publish.yml` [here](.github/workflows/python-publish.yml)) in a Continuous Integration workflow with PyPi. Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
+The package includes automated tests (see `.github/workflows/python-publish.yml` [here](https://github.com/murilobellatini/dialog2rasa/.github/workflows/python-publish.yml)) in a Continuous Integration workflow with PyPi. Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
 
 ### License
 
