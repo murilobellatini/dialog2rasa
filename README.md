@@ -1,8 +1,15 @@
 # Dialog2Rasa Converter
 
+![Build Status](https://github.com/murilobellatini/dialog2rasa/actions/workflows/python-publish.yml/badge.svg)
+![PyPI version](https://badge.fury.io/py/dialog2rasa.svg)
+![Python Versions](https://img.shields.io/pypi/pyversions/dialog2rasa.svg)
+![License](https://img.shields.io/pypi/l/dialog2rasa.svg)
+
+## About dialog2rasa
+
 Easily convert Dialogflow agents to Rasa format for Rasa version 3+. This tool automates the migration to Rasa, converting Dialogflow exports into Rasa YAML format.
 
-## Installation
+### Installation
 
 Install `dialog2rasa` with:
 
@@ -12,7 +19,7 @@ pip install dialog2rasa
 
 For more details, visit [PyPI](https://pypi.org/project/dialog2rasa/).
 
-## Usage
+### Usage
 
 Unzip your Dialogflow export first. Then, convert it to Rasa format with:
 
@@ -20,14 +27,14 @@ Unzip your Dialogflow export first. Then, convert it to Rasa format with:
 dialog2rasa -p path/to/extracted/dialogflow/export -l language_code
 ```
 
-### Command Details
+#### Command Details
 
 - `-p PATH`: Path to the Dialogflow export’s extracted folder.
 - `-l LANGUAGE`: Language code (e.g., 'en' for English), defaults to 'de' (German).
 
 The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflow agent’s directory, with `[LANGUAGE_CODE]` being the actual language code used.
 
-## Features and Limitations
+### Features and Limitations
 
 - **Features**: Converts intents, entities, and utterances to Rasa YAML.
 - **Limitations**:
@@ -37,14 +44,14 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
 
 > Note: See `test/mockup-agent` and its reference output [here](./tests/mockup-agent) to understand these limitations.
 
-## Contributing
+### Contributing
 
 Your feedback and contributions are appreciated to enhance this tool. Report bugs or suggest features via issues or pull requests.
 
-### Testing
+#### Testing
 
 The package includes automated tests (see `.github/workflows/python-publish.yml` [here](.github/workflows/python-publish.yml)) in a Continuous Integration workflow with PyPi. Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
 
-## License
+### License
 
 Licensed under the Apache 2.0 License.
