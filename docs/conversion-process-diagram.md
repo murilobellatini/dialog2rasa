@@ -9,9 +9,9 @@ graph TD
     B --> |Delegates conversion to| D(EntityConverter)
     B --> |Delegates conversion to| E(UtteranceConverter)
     
-    C --> |Generates| F{Rasa Intents YAML}
-    D --> |Generates| G{Rasa Entities YAML}
-    E --> |Generates| H{Rasa Utterances YAML}
+    C --> |Generates| F{Intents in <br>nlu/mockup-agent.yml}
+    D --> |Generates| G{"Synonyms, Lookup<br>& Compounds in nlu/"}
+    E --> |Generates| H{Utterances in domain.yml}
     
     F -.-> |Merged into| I[Final Rasa YAML Output]
     G -.-> |Merged into| I
