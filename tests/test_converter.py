@@ -84,9 +84,6 @@ def test_conversion(mock_args):
     output_dir = input_dir / "output" / language
     reference_output_dir = input_dir / "reference_output" / language
 
-    print(f"{output_dir=}")
-    print(f"{reference_output_dir=}")
-
     discrepancies = compare_directories(output_dir, reference_output_dir)
     assert not discrepancies, "Detailed discrepancies found:\n" + "\n".join(
         discrepancies

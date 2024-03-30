@@ -3,7 +3,11 @@ responses:
     - text: "Hi! What do you want to chat about?"
     - text: "Hey, anything in mind?"
 
-# TODO: Entities as slots. Review the types and mappings.
+# TODO: Review assumption of Dialogflow entities as slots and entities. Confirm the types and mappings.
+entities:
+  - full_name
+  - yes
+
 slots:
   full_name:
     type: text

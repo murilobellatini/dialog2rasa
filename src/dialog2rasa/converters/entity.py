@@ -87,8 +87,8 @@ class EntityConverter(BaseConverter):
     def _handle_synonyms(self, entry: dict) -> str:
         """Returns Rasa format string for Dialogflow synonyms."""
         synonym = entry["value"]
-        examples = "\n".join(f"    - {syn}" for syn in entry["synonyms"])
-        return f"- synonym: {synonym}\n  examples: |\n{examples}\n\n"
+        examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
+        return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
 
     def _handle_lookup(self, entry: dict) -> str:
         """Returns Rasa format string for Dialogflow lookup tables."""
@@ -116,9 +116,7 @@ class EntityConverter(BaseConverter):
             return
 
         with self.domain_file_path.open("a") as domain_file:
-            domain_file.write(
-                "# TODO: Entities as slots. Review the types and mappings.\nslots:\n"
-            )
+
             entity_names = sorted(
                 set(
                     [
@@ -128,6 +126,12 @@ class EntityConverter(BaseConverter):
                         )
                     ]
                 )
+            )
+            entities_str = "\n  - ".join(entity_names)
+            domain_file.write(
+                "# TODO: Review assumption of Dialogflow entities as slots and entities. Confirm the types and mappings.\nentities:"
+                f"\n  - {entities_str}"
+                "\n\nslots:\n"
             )
             for entity_name in entity_names:
                 domain_file.write(

@@ -11,9 +11,9 @@ nlu:
       - cancel
       - stop
 
-- synonym: yes
-  examples: |
-    - yes
-    - yeah
-    - sure
+  - synonym: yes
+    examples: |
+      - yes
+      - yeah
+      - sure
 
