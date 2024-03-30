@@ -17,12 +17,14 @@ class EntityConverter(BaseConverter):
         super().__init__(agent_dir, agent_name, language, output_file, "nlu")
         self.lookup_path = self.nlu_folder_path / "lookup"
         self.entities_path = self.agent_dir / "entities"
+        self.domain_file_path = self.output_dir / "domain.yml"
 
     def convert(self) -> None:
         """Processes and converts Dialogflow entities to Rasa format."""
         entity_contents = self._handle_entities()
         for entity_dict in entity_contents:
             write_dict_files(entity_dict)
+        self._handle_entities_as_slots()
         logger.debug(
             f"The entity files have been created in dir '{self.nlu_folder_path}'."
         )
@@ -106,3 +108,34 @@ class EntityConverter(BaseConverter):
         synonym = entry["value"]
         examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
         return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
+
+    def _handle_entities_as_slots(self):
+        """Appends entities as slots to the Rasa domain file."""
+        if not self.domain_file_path.exists():
+            logger.error(f"Domain file {self.domain_file_path} not found.")
+            return
+
+        with self.domain_file_path.open("a") as domain_file:
+            domain_file.write(
+                "# TODO: Entities as slots. Review the types and mappings.\nslots:\n"
+            )
+            for entity_name in sorted(
+                set(
+                    [
+                        x.stem.split("_entries")[0]
+                        for x in self.entities_path.glob(
+                            f"*_entries_{self.language}.json"
+                        )
+                    ]
+                )
+            ):
+                domain_file.write(
+                    f"  {entity_name}:\n    type: text\n    "
+                    "influence_conversation: false \n    mappings:\n    "
+                    f"- type: from_entity\n      entity: {entity_name}\n\n"
+                )
+
+        logger.warning(
+            "Entities have been added as slots to the domain file. "
+            "Please review slot types and mappings."
+        )

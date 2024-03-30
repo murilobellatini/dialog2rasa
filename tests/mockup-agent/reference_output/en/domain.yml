@@ -3,3 +3,19 @@ responses:
     - text: "Hi! What do you want to chat about?"
     - text: "Hey, anything in mind?"
 
+# TODO: Entities as slots. Review the types and mappings.
+slots:
+  full_name:
+    type: text
+    influence_conversation: false 
+    mappings:
+    - type: from_entity
+      entity: full_name
+
+  yes:
+    type: text
+    influence_conversation: false 
+    mappings:
+    - type: from_entity
+      entity: yes
+
