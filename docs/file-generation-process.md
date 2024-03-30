@@ -22,9 +22,9 @@ See the actual files of our `mockup-agent` for more details [here](tests/mockup-
     └── en # English language output
         ├── data
         │   └── nlu # Natural Language Understanding data
-        │       ├── __compound__full_name.yml  # Compound entities workaround
+        │       ├── __compound__full_name.yml  # Compound entities workaround for user review
         │       ├── lookup # Lookup tables (synonyms with only one value under an entity)
         │       │   └── yes.txt
-        │       └── mockup-agent.yml  # Merged NLU data for agent
-        └── domain.yml  # Rasa domain configuration
+        │       └── mockup-agent.yml  # Merged NLU with intents and other synonyms
+        └── domain.yml  # Rasa domain with utterances and synonyms
 ```

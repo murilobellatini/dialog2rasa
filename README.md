@@ -38,7 +38,7 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
 
 #### Output File Format
 
-For detailed insights into how our output data is structured, visit our documentation [here](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/conversion-process-diagram.md).
+For detailed insights into how our output data is structured, visit our documentation [here](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/file-generation-process.md).
 
 ### Features and Limitations
 
