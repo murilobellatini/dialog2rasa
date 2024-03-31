@@ -6,7 +6,7 @@ The following diagram illustrates the process flow for converting Dialogflow JSO
 graph TD
     A[Dialogflow JSON Input] -->|Read by| B(DialogflowToRasaConverter)
     B --> |Delegates conversion to| C(IntentConverter)
-    B --> |Delegates conversion to| D(EntityConverter)
+    B --> |Delegates conversion to| D(EntityConverter<br>SlotConverter)
     B --> |Delegates conversion to| E(UtteranceConverter)
     
     C --> |Generates| F{Intents in <br>nlu/mockup-agent.yml}

@@ -39,7 +39,7 @@ class DialogflowToRasaConverter(BaseConverter):
 
     def _initialize_converters(self) -> None:
         """Initializes all required converters."""
-        converter_types = ["intent", "utterance", "entity", "entity_slot"]
+        converter_types = ["intent", "utterance", "entity", "slot"]
         self.converters: dict[str, BaseConverter] = {}
         for converter_type in converter_types:
             self.converters[converter_type] = get_converter(
