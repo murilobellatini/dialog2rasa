@@ -64,7 +64,7 @@ class EntityConverter(BaseConverter):
                 "Please review slot types and mappings."
             )
 
-    def _process_compound_entity(self, entry, entity_name):
+    def _process_compound_entity(self, entry: dict, entity_name: str) -> None:
         compound_file_path = self.nlu_folder_dir / f"__compound__{entity_name}.yml"
         if compound_file_path not in self.compound_content:
             self.compound_content[compound_file_path] = (
@@ -81,14 +81,14 @@ class EntityConverter(BaseConverter):
             self._handle_compounds(entry),
         )
 
-    def _process_synonym_entity(self, entry):
+    def _process_synonym_entity(self, entry: dict) -> None:
         self._update_content(
             self.synonym_content,
             self.nlu_output_path,
             self._handle_synonyms(entry),
         )
 
-    def _process_lookup_entity(self, entry, entity_name):
+    def _process_lookup_entity(self, entry: dict, entity_name: str) -> None:
         lookup_file_path = self.lookup_dir / f"{entity_name}.txt"
         self._update_content(
             self.lookup_content,
