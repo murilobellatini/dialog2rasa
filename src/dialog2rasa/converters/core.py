@@ -29,14 +29,12 @@ class DialogflowToRasaConverter(BaseConverter):
 
     def _check_language_files_existence(self) -> bool:
         """Checks if language-specific files exist in the agent directories."""
-        intents_path = self.agent_dir / "intents"
-        entities_path = self.agent_dir / "entities"
         language_files_exist = any(
             file.name.endswith(f"_{self.language}.json")
-            for file in intents_path.glob("*.json")
+            for file in self.intents_path.glob("*.json")
         ) and any(
             file.name.endswith(f"_entries_{self.language}.json")
-            for file in entities_path.glob("*.json")
+            for file in self.entities_path.glob("*.json")
         )
         return language_files_exist
 

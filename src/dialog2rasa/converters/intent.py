@@ -15,7 +15,6 @@ class IntentConverter(BaseConverter):
         output_file: Optional[str] = None,
     ) -> None:
         super().__init__(agent_dir, agent_name, language, output_file, "nlu")
-        self.intents_path = agent_dir / "intents"
 
     def convert(self) -> None:
         """Converts Dialogflow intents to Rasa NLU format."""

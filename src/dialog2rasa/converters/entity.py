@@ -15,9 +15,6 @@ class EntityConverter(BaseConverter):
         output_file: Optional[str] = None,
     ) -> None:
         super().__init__(agent_dir, agent_name, language, output_file, "nlu")
-        self.lookup_path = self.nlu_folder_path / "lookup"
-        self.entities_path = self.agent_dir / "entities"
-        self.domain_file_path = self.output_dir / "domain.yml"
 
     def convert(self) -> None:
         """Processes and converts Dialogflow entities to Rasa format."""
@@ -129,7 +126,9 @@ class EntityConverter(BaseConverter):
             )
             entities_str = "\n  - ".join(entity_names)
             domain_file.write(
-                "# TODO: Review assumption of Dialogflow entities as slots and entities. Confirm the types and mappings.\nentities:"
+                "# TODO: Review assumption of Dialogflow "
+                "entities as slots and entities. "
+                "Confirm the types and mappings.\nentities:"
                 f"\n  - {entities_str}"
                 "\n\nslots:\n"
             )
