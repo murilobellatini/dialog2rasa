@@ -11,14 +11,14 @@ entities:
 slots:
   full_name:
     type: text
-    influence_conversation: false 
+    influence_conversation: false
     mappings:
     - type: from_entity
       entity: full_name
 
   yes:
     type: text
-    influence_conversation: false 
+    influence_conversation: false
     mappings:
     - type: from_entity
       entity: yes

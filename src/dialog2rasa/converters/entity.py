@@ -2,7 +2,7 @@ from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.general import camel_to_snake, logger
-from dialog2rasa.utils.io import read_json_file, write_dict_files
+from dialog2rasa.utils.io import read_json_file, write_dict_files, write_to_file
 
 
 class EntityConverter(BaseConverter):
@@ -18,12 +18,32 @@ class EntityConverter(BaseConverter):
         entity_contents = self._handle_entities()
         for entity_dict in entity_contents:
             write_dict_files(entity_dict)
-        self._handle_entities_as_slots()
+
+        self._append_entities_as_slots()
+
         logger.debug(
             f"The entity files have been created in dir '{self.nlu_folder_dir}'."
         )
 
+    def _append_entities_as_slots(self) -> None:
+        """Handles entities as slots and appends them to the domain file."""
+        slot_entities_content = self._handle_entities_as_slots()
+        if slot_entities_content:
+            write_to_file(self.domain_file_path, slot_entities_content, "a")
+            logger.warning(
+                "Entities have been added as slots to the domain file. "
+                "Please review slot types and mappings."
+            )
+
     def _handle_entities(self) -> tuple:
+        """
+        Handles entities of different kinds, returning a with all three types below:
+
+        1) Compound entities: stored in __compound__{entity_name}.yml for user
+        review, since not they are not Rasa-compatible;
+        2) Entities with more than one synonym are stored under synonyms in nlu.yaml;
+        3) Entities with one  one value are stored in lookup tables;
+        """
         synonym_content, lookup_content, compound_content = {}, {}, {}
 
         for entity_file in self.entities_dir.glob(f"*_entries_{self.language}.json"):
@@ -55,10 +75,9 @@ class EntityConverter(BaseConverter):
 
                 elif len(entry["synonyms"]) > 1:
                     # multiple synonyms are considered also synonyms in RASA
-                    synonyms_file_path = self.nlu_folder_dir / f"{self.agent_name}.yml"
                     self._update_content(
                         synonym_content,
-                        synonyms_file_path,
+                        self.nlu_output_path,
                         self._handle_synonyms(entry),
                     )
 
@@ -103,40 +122,31 @@ class EntityConverter(BaseConverter):
         examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
         return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
 
-    def _handle_entities_as_slots(self) -> None:
-        """Appends entities as slots to the Rasa domain file."""
+    def _handle_entities_as_slots(self) -> str:
+        """Returns entities as slots for appending to the Rasa domain file."""
         if not self.domain_file_path.exists():
             logger.error(f"Domain file {self.domain_file_path} not found.")
-            return
+            return ""
 
-        with self.domain_file_path.open("a") as domain_file:
-
-            entity_names = sorted(
-                set(
-                    [
-                        x.stem.split("_entries")[0]
-                        for x in self.entities_dir.glob(
-                            f"*_entries_{self.language}.json"
-                        )
-                    ]
-                )
+        entity_names = sorted(
+            set(
+                [
+                    x.stem.split("_entries")[0]
+                    for x in self.entities_dir.glob(f"*_entries_{self.language}.json")
+                ]
             )
-            entities_str = "\n  - ".join(entity_names)
-            domain_file.write(
-                "# TODO: Review assumption of Dialogflow "
-                "entities as slots and entities. "
-                "Confirm the types and mappings.\nentities:"
-                f"\n  - {entities_str}"
-                "\n\nslots:\n"
-            )
-            for entity_name in entity_names:
-                domain_file.write(
-                    f"  {entity_name}:\n    type: text\n    "
-                    "influence_conversation: false \n    mappings:\n    "
-                    f"- type: from_entity\n      entity: {entity_name}\n\n"
-                )
+        )
+        entities_str = "\n  - ".join(entity_names)
+        slots_str = "\n".join(
+            f"  {entity_name}:\n    type: text\n    "
+            "influence_conversation: false\n    mappings:\n    "
+            f"- type: from_entity\n      entity: {entity_name}\n"
+            for entity_name in entity_names
+        )
 
-        logger.warning(
-            "Entities have been added as slots to the domain file. "
-            "Please review slot types and mappings."
+        return (
+            "# TODO: Review assumption of Dialogflow "
+            "entities as slots and entities. "
+            "Confirm the types and mappings.\nentities:"
+            f"\n  - {entities_str}\n\nslots:\n{slots_str}\n"
         )
