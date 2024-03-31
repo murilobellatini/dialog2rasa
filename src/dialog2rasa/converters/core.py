@@ -1,5 +1,5 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.converters.manager import get_converter
