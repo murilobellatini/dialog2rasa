@@ -15,11 +15,11 @@ class IntentConverter(BaseConverter):
 
     def convert(self) -> None:
         """Converts Dialogflow intents to Rasa NLU format."""
-        converted_intents = self._handle_intents()
+        converted_intents = self._gather_intent_data()
         write_to_file(self.nlu_output_path, converted_intents)
         logger.debug(f"The file '{self.nlu_output_path}' has been created.")
 
-    def _handle_intents(self) -> str:
+    def _gather_intent_data(self) -> str:
         """Handles conversion of individual Dialogflow intents."""
         converted_intents = 'version: "3.1"\n\nnlu:\n'
         intent_file_stem = f"_usersays_{self.language}"
@@ -27,14 +27,14 @@ class IntentConverter(BaseConverter):
         for file in sorted(self.intents_dir.glob(f"*{intent_file_stem}.json")):
             intent_name = camel_to_snake(file.stem.split(intent_file_stem)[0])
             data = read_json_file(file)
-            examples = self._handle_examples(data)
+            examples = self._gather_example_data(data)
             converted_intents += (
                 f"  - intent: {intent_name}\n    examples: |\n{examples}\n"
             )
 
         return converted_intents
 
-    def _handle_examples(self, data: dict) -> str:
+    def _gather_example_data(self, data: dict) -> str:
         """Handles conversion of Dialogflow examples to Rasa format."""
         examples = ""
         for d in data:

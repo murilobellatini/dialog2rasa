@@ -16,11 +16,11 @@ class UtteranceConverter(BaseConverter):
     def convert(self) -> None:
         """Converts Dialogflow utterances to Rasa domain format."""
         responses_folder_path = self.agent_dir / "intents"
-        converted_responses = self._handle_responses(responses_folder_path)
+        converted_responses = self._gather_response_data(responses_folder_path)
         write_to_file(self.domain_file_path, converted_responses)
         logger.debug(f"The file '{self.domain_file_path}' has been created.")
 
-    def _handle_responses(self, responses_folder_path: Path) -> str:
+    def _gather_response_data(self, responses_folder_path: Path) -> str:
         """Handles conversion of Dialogflow responses to Rasa format."""
         converted_responses = "responses:\n"
         for file in sorted(responses_folder_path.iterdir()):
@@ -28,12 +28,12 @@ class UtteranceConverter(BaseConverter):
                 intent_name = camel_to_snake(file.stem)
                 data = read_json_file(file)
                 for response in data.get("responses", []):
-                    converted_responses += self._handle_utter_message(
+                    converted_responses += self._gather_utterance_data(
                         intent_name, response
                     )
         return converted_responses
 
-    def _handle_utter_message(self, intent_name: str, response: dict) -> str:
+    def _gather_utterance_data(self, intent_name: str, response: dict) -> str:
         """Handles conversion of individual Dialogflow utter messages."""
         converted_utter = ""
         for message in response.get("messages", []):
