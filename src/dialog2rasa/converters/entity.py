@@ -25,17 +25,9 @@ class EntityConverter(BaseConverter):
             f"The entity files have been created in dir '{self.nlu_folder_dir}'."
         )
 
-    def _append_entities_as_slots(self) -> None:
-        """Handles entities as slots and appends them to the domain file."""
-        slot_entities_content = self._handle_entities_as_slots()
-        if slot_entities_content:
-            write_to_file(self.domain_file_path, slot_entities_content, "a")
-            logger.warning(
-                "Entities have been added as slots to the domain file. "
-                "Please review slot types and mappings."
-            )
-
-    def _handle_entities(self) -> tuple:
+    def _handle_entities(
+        self,
+    ) -> tuple[dict[Path, str], dict[Path, str], dict[Path, str]]:
         """
         Handles entities of different kinds, returning a with all three types below:
 
@@ -44,7 +36,7 @@ class EntityConverter(BaseConverter):
         2) Entities with more than one synonym are stored under synonyms in nlu.yaml;
         3) Entities with one  one value are stored in lookup tables;
         """
-        synonym_content, lookup_content, compound_content = {}, {}, {}
+        self.synonym_content, self.lookup_content, self.compound_content = {}, {}, {}
 
         for entity_file in self.entities_dir.glob(f"*_entries_{self.language}.json"):
             entity_name = camel_to_snake(entity_file.stem).replace(
@@ -54,43 +46,55 @@ class EntityConverter(BaseConverter):
 
             for entry in entries:
                 if any("@" in syn for syn in entry["synonyms"]):
-                    # @ refers to compound entities in dialogflow
-                    compound_file_path = (
-                        self.nlu_folder_dir / f"__compound__{entity_name}.yml"
-                    )
-                    if compound_file_path not in compound_content:
-                        compound_content[compound_file_path] = (
-                            self._init_compound_file_content()
-                        )
-                        logger.warning(
-                            "Manual adaptation needed for compound "
-                            f"entity '{entity_name}' in Rasa. "
-                            f"See file: '__compound__{entity_name}.yml'."
-                        )
-                    self._update_content(
-                        compound_content,
-                        compound_file_path,
-                        self._handle_compounds(entry),
-                    )
-
+                    self._process_compound_entity(entry, entity_name)
                 elif len(entry["synonyms"]) > 1:
-                    # multiple synonyms are considered also synonyms in RASA
-                    self._update_content(
-                        synonym_content,
-                        self.nlu_output_path,
-                        self._handle_synonyms(entry),
-                    )
-
+                    self._process_synonym_entity(entry)
                 else:
-                    # single synonyms are accumulated in lookup tables
-                    lookup_file_path = self.lookup_dir / f"{entity_name}.txt"
-                    self._update_content(
-                        lookup_content,
-                        lookup_file_path,
-                        self._handle_lookup(entry),
-                    )
+                    self._process_lookup_entity(entry, entity_name)
 
-        return synonym_content, lookup_content, compound_content
+        return self.synonym_content, self.lookup_content, self.compound_content
+
+    def _append_entities_as_slots(self) -> None:
+        """Handles entities as slots and appends them to the domain file."""
+        slot_entities_content = self._process_entities_as_slots()
+        if slot_entities_content:
+            write_to_file(self.domain_file_path, slot_entities_content, "a")
+            logger.warning(
+                "Entities have been added as slots to the domain file. "
+                "Please review slot types and mappings."
+            )
+
+    def _process_compound_entity(self, entry, entity_name):
+        compound_file_path = self.nlu_folder_dir / f"__compound__{entity_name}.yml"
+        if compound_file_path not in self.compound_content:
+            self.compound_content[compound_file_path] = (
+                self._init_compound_file_content()
+            )
+            logger.warning(
+                "Manual adaptation needed for compound "
+                f"entity '{entity_name}' in Rasa. "
+                f"See file: '__compound__{entity_name}.yml'."
+            )
+        self._update_content(
+            self.compound_content,
+            compound_file_path,
+            self._handle_compounds(entry),
+        )
+
+    def _process_synonym_entity(self, entry):
+        self._update_content(
+            self.synonym_content,
+            self.nlu_output_path,
+            self._handle_synonyms(entry),
+        )
+
+    def _process_lookup_entity(self, entry, entity_name):
+        lookup_file_path = self.lookup_dir / f"{entity_name}.txt"
+        self._update_content(
+            self.lookup_content,
+            lookup_file_path,
+            self._handle_lookup(entry),
+        )
 
     def _update_content(self, content_dict: dict, file_path: Path, new_content: str):
         if file_path not in content_dict:
@@ -122,7 +126,7 @@ class EntityConverter(BaseConverter):
         examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
         return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
 
-    def _handle_entities_as_slots(self) -> str:
+    def _process_entities_as_slots(self) -> str:
         """Returns entities as slots for appending to the Rasa domain file."""
         if not self.domain_file_path.exists():
             logger.error(f"Domain file {self.domain_file_path} not found.")
