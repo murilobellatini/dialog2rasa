@@ -5,11 +5,9 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/dialog2rasa.svg)](https://pypi.org/project/dialog2rasa/)
 [![License](https://img.shields.io/pypi/l/dialog2rasa.svg)](https://github.com/murilobellatini/dialog2rasa/blob/main/LICENSE)
 
-## About dialog2rasa
+Convert Dialogflow agents to Rasa format easily. Supports Rasa 3+.
 
-Easily convert Dialogflow agents to Rasa format for Rasa version 3+. This tool automates the migration to Rasa, converting Dialogflow exports into Rasa YAML format.
-
-For a detailed architecture flow of the Dialogflow to Rasa conversion process, see the [Conversion Process Diagram](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/conversion-process-diagram.md).
+For a detailed architecture flow, see the [Conversion Process Diagram](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/conversion-process-diagram.md).
 
 ### Installation
 
@@ -38,15 +36,14 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
 
 #### Output File Format
 
-For detailed insights into how our output data is structured, visit our documentation [here](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/file-generation-process.md).
+For detailed insights into how the output data is structured, visit our documentation [here](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/file-generation-process.md).
 
 ### Features and Limitations
 
 - **Features**: Converts intents, entities, and utterances to Rasa YAML.
 - **Limitations**:
-  - As Rasa doesn't natively support compound entities, this converter introduces a workaround by generating a pseudo-YAML file, prefixed with `__compound_`, which allows users to define their handling strategy.
-  - It consolidates entities that share a single synonym into a lookup table, while also treating entities with multiple synonyms as synonyms within Rasa.
-  - The output NLU YAML file is named after the agent, facilitating project integration by placing it within an `nlu` folder.
+  - Generates `__compound_` prefixed pseudo-YAML for Rasa's unsupported compound entities, allowing for custom handling by the user.
+  - For a single entity, Dialogflow reference values with only one synonym each are merged into a Rasa lookup table named after the entity. Reference values with multiple synonyms result in a Rasa entity where extra synonyms are grouped under the corresponding reference value.
 
 > Note: See `test/mockup-agent` and its reference output [here](https://github.com/murilobellatini/dialog2rasa/blob/main/tests/mockup-agent) to understand these limitations.
 
