@@ -23,7 +23,7 @@ For more details, visit [PyPI](https://pypi.org/project/dialog2rasa/).
 
 ### Usage
 
-Unzip your Dialogflow export first. Then, convert it to Rasa format with:
+Export your Dialogflow agent (details [here](https://cloud.google.com/dialogflow/es/docs/agents-settings#export)), unzip it, and then, convert it to Rasa format with:
 
 ```sh
 dialog2rasa -p path/to/extracted/dialogflow/export -l language_code
