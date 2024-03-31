@@ -1,6 +1,12 @@
 from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
+from dialog2rasa.utils.formatting import (
+    format_compounds_for_rasa,
+    format_lookup_for_rasa,
+    format_synonyms_for_rasa,
+    initialize_compound_file_header,
+)
 from dialog2rasa.utils.general import camel_to_snake, logger
 from dialog2rasa.utils.io import read_json_file, write_dict_files
 
@@ -56,7 +62,7 @@ class EntityConverter(BaseConverter):
         compound_file_path = self.nlu_folder_dir / f"__compound__{entity_name}.yml"
         if compound_file_path not in self.compound_content:
             self.compound_content[compound_file_path] = (
-                self._initialize_compound_file_header()
+                initialize_compound_file_header()
             )
             logger.warning(
                 "Manual adaptation needed for compound "
@@ -66,14 +72,14 @@ class EntityConverter(BaseConverter):
         self._append_to_file_content(
             self.compound_content,
             compound_file_path,
-            self._format_compounds_for_rasa(entry),
+            format_compounds_for_rasa(entry),
         )
 
     def _create_synonym_entity_records(self, entry: dict) -> None:
         self._append_to_file_content(
             self.synonym_content,
             self.nlu_output_path,
-            self._format_synonyms_for_rasa(entry),
+            format_synonyms_for_rasa(entry),
         )
 
     def _create_lookup_entity_records(self, entry: dict, entity_name: str) -> None:
@@ -81,7 +87,7 @@ class EntityConverter(BaseConverter):
         self._append_to_file_content(
             self.lookup_content,
             lookup_file_path,
-            self._format_lookup_for_rasa(entry),
+            format_lookup_for_rasa(entry),
         )
 
     def _append_to_file_content(
@@ -90,28 +96,3 @@ class EntityConverter(BaseConverter):
         if file_path not in content_dict:
             content_dict[file_path] = ""
         content_dict[file_path] += new_content
-
-    def _format_synonyms_for_rasa(self, entry: dict) -> str:
-        """Returns Rasa format string for Dialogflow synonyms."""
-        synonym = entry["value"]
-        examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
-        return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
-
-    def _format_lookup_for_rasa(self, entry: dict) -> str:
-        """Returns Rasa format string for Dialogflow lookup tables."""
-        return "\n".join(entry["synonyms"]) + "\n"
-
-    def _initialize_compound_file_header(self) -> str:
-        """Returns the initial content for a new compound entity file."""
-        header_content = "# Compound entity: Manual adaptation needed for Rasa\n"
-        header_content += 'version: "3.1"\n\nnlu:\n'
-        return header_content
-
-    def _format_compounds_for_rasa(self, entry: dict) -> str:
-        """
-        Returns Rasa format string for pseudo-compound entities from Dialogflow.
-        No need to check for new files here, handled in convert method.
-        """
-        synonym = entry["value"]
-        examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
-        return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
