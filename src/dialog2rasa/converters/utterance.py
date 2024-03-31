@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional
 
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.general import camel_to_snake, logger
@@ -10,18 +9,16 @@ class UtteranceConverter(BaseConverter):
     def __init__(
         self,
         agent_dir: Path,
-        agent_name: str,
         language: str,
-        output_file: Optional[str] = "domain.yml",
     ) -> None:
-        super().__init__(agent_dir, agent_name, language, output_file)
+        super().__init__(agent_dir, language)
 
     def convert(self) -> None:
         """Converts Dialogflow utterances to Rasa domain format."""
         responses_folder_path = self.agent_dir / "intents"
         converted_responses = self._handle_responses(responses_folder_path)
-        write_to_file(self.output_path, converted_responses)
-        logger.debug(f"The file '{self.output_path}' has been created.")
+        write_to_file(self.domain_file_path, converted_responses)
+        logger.debug(f"The file '{self.domain_file_path}' has been created.")
 
     def _handle_responses(self, responses_folder_path: Path) -> str:
         """Handles conversion of Dialogflow responses to Rasa format."""

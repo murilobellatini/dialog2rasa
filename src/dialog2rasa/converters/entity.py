@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional
 
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.utils.general import camel_to_snake, logger
@@ -10,11 +9,9 @@ class EntityConverter(BaseConverter):
     def __init__(
         self,
         agent_dir: Path,
-        agent_name: str,
         language: str,
-        output_file: Optional[str] = None,
     ) -> None:
-        super().__init__(agent_dir, agent_name, language, output_file, "nlu")
+        super().__init__(agent_dir, language)
 
     def convert(self) -> None:
         """Processes and converts Dialogflow entities to Rasa format."""
@@ -23,13 +20,13 @@ class EntityConverter(BaseConverter):
             write_dict_files(entity_dict)
         self._handle_entities_as_slots()
         logger.debug(
-            f"The entity files have been created in dir '{self.nlu_folder_path}'."
+            f"The entity files have been created in dir '{self.nlu_folder_dir}'."
         )
 
     def _handle_entities(self) -> tuple:
         synonym_content, lookup_content, compound_content = {}, {}, {}
 
-        for entity_file in self.entities_path.glob(f"*_entries_{self.language}.json"):
+        for entity_file in self.entities_dir.glob(f"*_entries_{self.language}.json"):
             entity_name = camel_to_snake(entity_file.stem).replace(
                 f"_entries_{self.language}", ""
             )
@@ -39,7 +36,7 @@ class EntityConverter(BaseConverter):
                 if any("@" in syn for syn in entry["synonyms"]):
                     # @ refers to compound entities in dialogflow
                     compound_file_path = (
-                        self.nlu_folder_path / f"__compound__{entity_name}.yml"
+                        self.nlu_folder_dir / f"__compound__{entity_name}.yml"
                     )
                     if compound_file_path not in compound_content:
                         compound_content[compound_file_path] = (
@@ -58,7 +55,7 @@ class EntityConverter(BaseConverter):
 
                 elif len(entry["synonyms"]) > 1:
                     # multiple synonyms are considered also synonyms in RASA
-                    synonyms_file_path = self.nlu_folder_path / f"{self.agent_name}.yml"
+                    synonyms_file_path = self.nlu_folder_dir / f"{self.agent_name}.yml"
                     self._update_content(
                         synonym_content,
                         synonyms_file_path,
@@ -67,7 +64,7 @@ class EntityConverter(BaseConverter):
 
                 else:
                     # single synonyms are accumulated in lookup tables
-                    lookup_file_path = self.lookup_path / f"{entity_name}.txt"
+                    lookup_file_path = self.lookup_dir / f"{entity_name}.txt"
                     self._update_content(
                         lookup_content,
                         lookup_file_path,
@@ -106,7 +103,7 @@ class EntityConverter(BaseConverter):
         examples = "\n".join(f"      - {syn}" for syn in entry["synonyms"])
         return f"  - synonym: {synonym}\n    examples: |\n{examples}\n\n"
 
-    def _handle_entities_as_slots(self):
+    def _handle_entities_as_slots(self) -> None:
         """Appends entities as slots to the Rasa domain file."""
         if not self.domain_file_path.exists():
             logger.error(f"Domain file {self.domain_file_path} not found.")
@@ -118,7 +115,7 @@ class EntityConverter(BaseConverter):
                 set(
                     [
                         x.stem.split("_entries")[0]
-                        for x in self.entities_path.glob(
+                        for x in self.entities_dir.glob(
                             f"*_entries_{self.language}.json"
                         )
                     ]

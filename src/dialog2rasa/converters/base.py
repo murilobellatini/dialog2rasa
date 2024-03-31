@@ -1,6 +1,5 @@
 from abc import abstractmethod
 from pathlib import Path
-from typing import Optional
 
 
 class BaseConverter:
@@ -13,27 +12,22 @@ class BaseConverter:
     def __init__(
         self,
         agent_dir: Path,
-        agent_name: str,
         language: str,
-        output_file: Optional[str] = None,
-        sub_dir: str = "",
     ) -> None:
         self.agent_dir = agent_dir
-        self.agent_name = agent_name
+        self.agent_name = agent_dir.stem
         self.language = language
-        self.initialize_paths(output_file, sub_dir)
+        self.initialize_paths()
 
-    def initialize_paths(self, output_file: Optional[str], sub_dir: str) -> None:
+    def initialize_paths(self) -> None:
         self.output_dir = self.agent_dir / "output" / self.language
-        self.nlu_folder_path = (
-            self.output_dir / "data" / "nlu" if sub_dir == "nlu" else self.output_dir
-        )
-        self.output_file = output_file if output_file else f"{self.agent_name}.yml"
-        self.output_path = self.nlu_folder_path / self.output_file
-        self.lookup_path = self.nlu_folder_path / "lookup"
-        self.intents_path = self.agent_dir / "intents"
-        self.entities_path = self.agent_dir / "entities"
         self.domain_file_path = self.output_dir / "domain.yml"
+        self.nlu_folder_dir = self.output_dir / "data" / "nlu"
+        self.nlu_output_path = self.nlu_folder_dir / f"{self.agent_name}.yml"
+        self.lookup_dir = self.nlu_folder_dir / "lookup"
+        self.intents_dir = self.agent_dir / "intents"
+        self.entities_dir = self.agent_dir / "entities"
 
     @abstractmethod
-    def convert(self) -> None: ...
+    def convert(self) -> None:
+        pass

@@ -1,6 +1,5 @@
 from pathlib import Path
 import sys
-from typing import Optional
 
 from dialog2rasa.converters.base import BaseConverter
 from dialog2rasa.converters.manager import get_converter
@@ -15,10 +14,9 @@ class DialogflowToRasaConverter(BaseConverter):
         self,
         agent_dir: Path,
         language: str,
-        output_file: Optional[str] = None,
     ) -> None:
         """Initializes converter settings."""
-        super().__init__(agent_dir, agent_dir.stem, language, output_file, "nlu")
+        super().__init__(agent_dir, language)
         if not self._language_files_exist:
             logger.error(
                 f"Language code '{self.language}' files not found "
@@ -32,10 +30,10 @@ class DialogflowToRasaConverter(BaseConverter):
         """Checks if language-specific files exist in the agent directories."""
         language_files_exist = any(
             file.name.endswith(f"_{self.language}.json")
-            for file in self.intents_path.glob("*.json")
+            for file in self.intents_dir.glob("*.json")
         ) and any(
             file.name.endswith(f"_entries_{self.language}.json")
-            for file in self.entities_path.glob("*.json")
+            for file in self.entities_dir.glob("*.json")
         )
         return language_files_exist
 
@@ -45,7 +43,7 @@ class DialogflowToRasaConverter(BaseConverter):
         self.converters: dict[str, BaseConverter] = {}
         for converter_type in converter_types:
             self.converters[converter_type] = get_converter(
-                converter_type, self.agent_dir, self.agent_name, self.language
+                converter_type, self.agent_dir, self.language
             )
 
     def convert_all(self) -> None:
