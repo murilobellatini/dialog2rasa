@@ -4,7 +4,7 @@ This section outlines the structure of test data and the file generation process
 
 ## Structure Overview
 
-See the actual files of our `mockup-agent` for more details [here](tests/mockup-agent).
+See the actual files of our `mockup-agent` for more details [here](https://github.com/murilobellatini/dialog2rasa/blob/main/tests/mockup-agent).
 
 ``` bash
 /tests/mockup-agent
