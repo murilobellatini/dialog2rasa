@@ -19,7 +19,7 @@ class DialogflowToRasaConverter(BaseConverter):
     ) -> None:
         """Initializes converter settings."""
         super().__init__(agent_dir, agent_dir.stem, language, output_file, "nlu")
-        if not self._check_language_files_existence():
+        if not self._language_files_exist:
             logger.error(
                 f"Language code '{self.language}' files not found "
                 "in intents or entities directories. Please check if "
@@ -27,7 +27,8 @@ class DialogflowToRasaConverter(BaseConverter):
             )
             sys.exit(1)
 
-    def _check_language_files_existence(self) -> bool:
+    @property
+    def _language_files_exist(self) -> bool:
         """Checks if language-specific files exist in the agent directories."""
         language_files_exist = any(
             file.name.endswith(f"_{self.language}.json")
