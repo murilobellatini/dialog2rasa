@@ -56,7 +56,12 @@ Your feedback and contributions are appreciated to enhance this tool. Report bug
 
 #### Testing
 
-The package includes automated tests (see `.github/workflows/python-publish.yml` [here](https://github.com/murilobellatini/dialog2rasa/blob/main/.github/workflows/python-publish.yml)) in a Continuous Integration workflow with PyPi. Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
+The package includes automated tests that are run in two Continuous Integration workflows:
+
+- **PR Validation CI**: Tests are run on pull requests to ensure code quality and functionality before merging (see `.github/workflows/pr-validation-ci.yml` [here](https://github.com/murilobellatini/dialog2rasa/blob/main/.github/workflows/pr-validation-ci.yml)).
+- **Python Publish**: Upon merging, tests are run again before deployment to PyPI (see `.github/workflows/python-publish.yml` [here](https://github.com/murilobellatini/dialog2rasa/blob/main/.github/workflows/python-publish.yml)).
+
+Contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
 
 ### License
 
