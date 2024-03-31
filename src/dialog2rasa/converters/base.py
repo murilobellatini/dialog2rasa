@@ -15,7 +15,6 @@ class BaseConverter:
         language: str,
     ) -> None:
         self.agent_dir = agent_dir
-        self.agent_name = agent_dir.stem
         self.language = language
         self.initialize_paths()
 
@@ -23,7 +22,7 @@ class BaseConverter:
         self.output_dir = self.agent_dir / "output" / self.language
         self.domain_file_path = self.output_dir / "domain.yml"
         self.nlu_folder_dir = self.output_dir / "data" / "nlu"
-        self.nlu_output_path = self.nlu_folder_dir / f"{self.agent_name}.yml"
+        self.nlu_output_path = self.nlu_folder_dir / "nlu.yml"
         self.lookup_dir = self.nlu_folder_dir / "lookup"
         self.intents_dir = self.agent_dir / "intents"
         self.entities_dir = self.agent_dir / "entities"
