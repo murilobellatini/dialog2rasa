@@ -27,7 +27,7 @@ class EntityConverter(BaseConverter):
         self,
     ) -> tuple[dict[Path, str], dict[Path, str], dict[Path, str]]:
         """
-        Handles entities of different kinds, returning a with all three types below:
+        Gathers entity data of the three different kinds below:
 
         1) Compound entities: stored in __compound__{entity_name}.yml for user
         review, since not they are not Rasa-compatible;

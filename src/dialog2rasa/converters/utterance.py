@@ -21,7 +21,7 @@ class UtteranceConverter(BaseConverter):
         logger.debug(f"The file '{self.domain_file_path}' has been created.")
 
     def _gather_response_data(self, responses_folder_path: Path) -> str:
-        """Handles conversion of Dialogflow responses to Rasa format."""
+        """Gathers response data and converts it into Rasa format."""
         converted_responses = "responses:\n"
         for file in sorted(responses_folder_path.iterdir()):
             if not file.name.endswith(f"usersays_{self.language}.json"):
@@ -34,7 +34,7 @@ class UtteranceConverter(BaseConverter):
         return converted_responses
 
     def _gather_utterance_data(self, intent_name: str, response: dict) -> str:
-        """Handles conversion of individual Dialogflow utter messages."""
+        """Gathers utterance data and converts it into Rasa format."""
         converted_utter = ""
         for message in response.get("messages", []):
             if message.get("lang") == self.language:
