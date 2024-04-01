@@ -7,7 +7,7 @@
 
 Convert Dialogflow agents to Rasa format easily. Supports Rasa 3+.
 
-For a detailed architecture flow, see the [Conversion Process Diagram](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/conversion-process-diagram.md).
+For an overview architecture flow, see the [Conversion Process Diagram](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/conversion-process-diagram.md).
 
 ## Installation
 
@@ -23,7 +23,7 @@ For more details, visit [PyPI](https://pypi.org/project/dialog2rasa/).
 
 Export your Dialogflow agent (details [here](https://cloud.google.com/dialogflow/es/docs/agents-settings#export)), unzip it, and then, convert it to Rasa format with:
 
-```sh
+```bash
 dialog2rasa -p path/to/extracted/dialogflow/export -l language_code -v
 ```
 
@@ -63,7 +63,7 @@ Your feedback and contributions are appreciated to enhance this tool. Report bug
 
 The package includes automated tests that are run in two Continuous Integration workflows:
 
-- **PR Validation CI**: Tests are run on pull requests to ensure code quality and functionality before merging (more details [here](https://github.com/murilobellatini/dialog2rasa/blob/main/.github/workflows/pr-validation-ci.yml)).
+- **PR Validation**: Tests are run on pull requests to ensure code quality and functionality before merging (more details [here](https://github.com/murilobellatini/dialog2rasa/blob/main/.github/workflows/pr-validation-ci.yml)).
 - **Python Publish**: Upon merging, tests are run again before deployment to PyPI (more details [here](https://github.com/murilobellatini/dialog2rasa/blob/main/.github/workflows/python-publish.yml)).
 
 Please contribute by writing tests with `pytest` for your code changes to maintain functionality and reliability.
