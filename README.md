@@ -9,6 +9,22 @@ Convert Dialogflow agents to Rasa format easily. Supports Rasa 3+.
 
 For an overview architecture flow, see the [Conversion Process Diagram](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/conversion-process-diagram.md).
 
+<details>
+<summary>Click here to expand our Table of Contents.</summary>
+
+- [Dialog2Rasa Converter](#dialog2rasa-converter)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Command Details](#command-details)
+      - [Output File Format](#output-file-format)
+    - [Features](#features)
+    - [Limitations](#limitations)
+    - [Contributing](#contributing)
+      - [Testing \& CI](#testing--ci)
+    - [License](#license)
+
+</details>
+
 ## Installation
 
 Install `dialog2rasa` with:
@@ -39,7 +55,7 @@ The conversion output is saved in `/output/[LANGUAGE_CODE]` within the Dialogflo
 
 For detailed insights into how the output data is structured, visit our documentation [here](https://github.com/murilobellatini/dialog2rasa/blob/main/docs/file-generation-process.md).
 
-### Features and Limitations
+### Features
 
 Converts intents, entities, and utterances to Rasa YAML.
 
@@ -59,7 +75,9 @@ This approach comes from what we've seen work in practice, showing that Rasa ten
 
 Your feedback and contributions are appreciated to enhance this tool. Report bugs or suggest features via issues or pull requests.
 
-#### Testing
+> **Note**: `main` branch is protected.
+
+#### Testing & CI
 
 The package includes automated tests that are run in two Continuous Integration workflows:
 
