@@ -1,24 +1,20 @@
+import logging
 from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
-from dialog2rasa.utils.general import logger
 from dialog2rasa.utils.io import write_to_file
 
 
 class SlotConverter(BaseConverter):
-    def __init__(
-        self,
-        agent_dir: Path,
-        language: str,
-    ) -> None:
-        super().__init__(agent_dir, language)
+    def __init__(self, agent_dir: Path, language: str, logger: logging.Logger) -> None:
+        super().__init__(agent_dir, language, logger)
 
     def convert(self) -> None:
         """Appends Dialogflow entities as slots to domain.yaml."""
         slot_entities_content = self._gather_slot_data()
         if slot_entities_content:
             write_to_file(self.domain_file_path, slot_entities_content, "a")
-            logger.warning(
+            self.logger.warning(
                 "Entities have been added as slots to the domain file. "
                 "Please review slot types and mappings."
             )
@@ -26,7 +22,7 @@ class SlotConverter(BaseConverter):
     def _gather_slot_data(self) -> str:
         """Returns entities as slots for appending to the Rasa domain file."""
         if not self.domain_file_path.exists():
-            logger.error(f"Domain file {self.domain_file_path} not found.")
+            self.logger.error(f"Domain file {self.domain_file_path} not found.")
             return ""
 
         entity_names = sorted(

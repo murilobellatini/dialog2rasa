@@ -1,24 +1,21 @@
+import logging
 from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
-from dialog2rasa.utils.general import camel_to_snake, logger
+from dialog2rasa.utils.general import camel_to_snake
 from dialog2rasa.utils.io import read_json_file, write_to_file
 
 
 class UtteranceConverter(BaseConverter):
-    def __init__(
-        self,
-        agent_dir: Path,
-        language: str,
-    ) -> None:
-        super().__init__(agent_dir, language)
+    def __init__(self, agent_dir: Path, language: str, logger: logging.Logger) -> None:
+        super().__init__(agent_dir, language, logger)
 
     def convert(self) -> None:
         """Converts Dialogflow utterances to Rasa domain format."""
         responses_folder_path = self.agent_dir / "intents"
         converted_responses = self._gather_response_data(responses_folder_path)
         write_to_file(self.domain_file_path, converted_responses)
-        logger.debug(f"The file '{self.domain_file_path}' has been created.")
+        self.logger.debug(f"The file '{self.domain_file_path}' has been created.")
 
     def _gather_response_data(self, responses_folder_path: Path) -> str:
         """Gathers response data and converts it into Rasa format."""

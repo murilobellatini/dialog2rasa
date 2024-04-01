@@ -2,6 +2,7 @@ import argparse
 from pathlib import Path
 
 from dialog2rasa.converters.core import DialogflowToRasaConverter
+from dialog2rasa.utils.general import setup_logger
 
 
 def main() -> None:
@@ -24,11 +25,19 @@ def main() -> None:
         help="Language code (e.g., 'en' for English) of the Dialogflow agent. "
         "Defaults to 'de' (German).",
     )
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        action="store_true",
+        help="Increase output verbosity for debugging purposes.",
+    )
 
     args = parser.parse_args()
 
+    logger = setup_logger(verbose=args.verbose)
+
     converter = DialogflowToRasaConverter(
-        agent_dir=Path(args.path), language=args.language
+        agent_dir=Path(args.path), language=args.language, logger=logger
     )
     converter.convert_all()
 

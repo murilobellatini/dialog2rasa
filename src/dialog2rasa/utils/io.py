@@ -2,8 +2,6 @@ import json
 import shutil
 from pathlib import Path
 
-from dialog2rasa.utils.general import logger
-
 
 def reset_directory(dir_path: Path, deepest_subdir: str) -> None:
     """
@@ -11,9 +9,7 @@ def reset_directory(dir_path: Path, deepest_subdir: str) -> None:
     then creates the specified deepest subdirectory.
     """
     if dir_path.exists():
-        logger.warning(f"Clearing all contents from '{dir_path}'...")
         shutil.rmtree(dir_path)
-        logger.debug("Output directory cleared.")
     (dir_path / deepest_subdir).mkdir(parents=True, exist_ok=True)
 
 

@@ -1,23 +1,20 @@
+import logging
 from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
-from dialog2rasa.utils.general import camel_to_snake, logger
+from dialog2rasa.utils.general import camel_to_snake
 from dialog2rasa.utils.io import read_json_file, write_to_file
 
 
 class IntentConverter(BaseConverter):
-    def __init__(
-        self,
-        agent_dir: Path,
-        language: str,
-    ) -> None:
-        super().__init__(agent_dir, language)
+    def __init__(self, agent_dir: Path, language: str, logger: logging.Logger) -> None:
+        super().__init__(agent_dir, language, logger)
 
     def convert(self) -> None:
         """Converts Dialogflow intents to Rasa NLU format."""
         converted_intents = self._gather_intent_data()
         write_to_file(self.nlu_output_path, converted_intents)
-        logger.debug(f"The file '{self.nlu_output_path}' has been created.")
+        self.logger.debug(f"The file '{self.nlu_output_path}' has been created.")
 
     def _gather_intent_data(self) -> str:
         """Gathers intent data and converts it into Rasa format."""
