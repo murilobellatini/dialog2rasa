@@ -1,4 +1,5 @@
 from abc import abstractmethod
+import logging
 from pathlib import Path
 
 
@@ -9,13 +10,10 @@ class BaseConverter:
     2) Export the output files following the RASA YAML-format.
     """
 
-    def __init__(
-        self,
-        agent_dir: Path,
-        language: str,
-    ) -> None:
+    def __init__(self, agent_dir: Path, language: str, logger: logging.Logger) -> None:
         self.agent_dir = agent_dir
         self.language = language
+        self.logger = logger
         self.initialize_paths()
 
     def initialize_paths(self) -> None:

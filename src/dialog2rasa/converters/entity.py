@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from dialog2rasa.converters.base import BaseConverter
@@ -7,17 +8,13 @@ from dialog2rasa.utils.formatting import (
     format_synonyms_for_rasa,
     initialize_compound_file_header,
 )
-from dialog2rasa.utils.general import camel_to_snake, logger
+from dialog2rasa.utils.general import camel_to_snake
 from dialog2rasa.utils.io import read_json_file, write_dict_files
 
 
 class EntityConverter(BaseConverter):
-    def __init__(
-        self,
-        agent_dir: Path,
-        language: str,
-    ) -> None:
-        super().__init__(agent_dir, language)
+    def __init__(self, agent_dir: Path, language: str, logger: logging.Logger) -> None:
+        super().__init__(agent_dir, language, logger)
 
     def convert(self) -> None:
         """Processes and converts Dialogflow entities to Rasa format."""
@@ -25,7 +22,7 @@ class EntityConverter(BaseConverter):
         for entity_dict in entity_contents:
             write_dict_files(entity_dict)
 
-        logger.debug(
+        self.logger.debug(
             f"The entity files have been created in dir '{self.nlu_folder_dir}'."
         )
 
@@ -64,7 +61,7 @@ class EntityConverter(BaseConverter):
             self.compound_content[compound_file_path] = (
                 initialize_compound_file_header()
             )
-            logger.warning(
+            self.logger.warning(
                 "Manual adaptation needed for compound "
                 f"entity '{entity_name}' in Rasa. "
                 f"See file: '__compound__{entity_name}.yml'."
