@@ -1,5 +1,9 @@
 # Dialog2Rasa Converter
 
+> Moves a chatbot from Dialogflow to Rasa.
+> On PyPI. Supports Rasa 3 and newer.
+> Install, convert, done. Details below.
+
 [![Build Status](https://github.com/murilobellatini/dialog2rasa/actions/workflows/python-publish.yml/badge.svg)](https://github.com/murilobellatini/dialog2rasa/actions)
 [![PyPI version](https://badge.fury.io/py/dialog2rasa.svg)](https://pypi.org/project/dialog2rasa/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/dialog2rasa.svg)](https://pypi.org/project/dialog2rasa/)
