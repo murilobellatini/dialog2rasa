@@ -93,3 +93,7 @@ Please contribute by writing tests with `pytest` for your code changes to mainta
 ### License
 
 Licensed under the Apache 2.0 License.
+
+## Cite
+
+If this helps you, please credit Murilo Bellatini and link this repo. GitHub's "Cite this repository" button uses `CITATION.cff`.

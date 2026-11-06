@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "dialog2rasa"
+abstract: "Python package that converts Dialogflow agents to Rasa 3+."
+type: software
+authors:
+  - family-names: Bellatini
+    given-names: Murilo
+repository-code: "https://github.com/murilobellatini/dialog2rasa"
+license: Apache-2.0
